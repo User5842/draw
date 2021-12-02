@@ -1,0 +1,36 @@
+* {
+    box-sizing: border-box;
+    font-family: monospace;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    height: 100vh;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+}
+
+.main__title {
+    font-size: 2rem;
+    margin: 0 0 1rem 0;
+}
+
+.coordinates {
+    margin: 0 0 1rem 0;
+}
+
+#color {
+    display: block;
+    margin: 0 0 1rem 0;
+}
+
+#canvas {
+    border: 1px solid black;
+    height: 400px;
+    width: 400px;
+}
