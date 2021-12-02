@@ -9,6 +9,7 @@ export default class Board {
   #coordinateY: HTMLElement | null = null;
   #currentColor = "";
   #ctx: CanvasRenderingContext2D | null = null;
+  #drawing = false;
 
   constructor(cellSize = 50) {
     this.#canvas = document.getElementById("canvas") as HTMLCanvasElement;
@@ -28,16 +29,20 @@ export default class Board {
     this.#drawXPartitions();
     this.#drawYPartitions();
 
-    this.#canvas?.addEventListener("click", (event) => {
-      const { offsetX, offsetY } = event;
-      const nearestX = this.#roundToNearestCellValue(offsetX);
-      const nearestY = this.#roundToNearestCellValue(offsetY);
+    this.#initEventListeners();
+  }
 
-      if (this.#ctx) {
-        this.#ctx.fillStyle = this.#currentColor;
-        this.#ctx.fillRect(nearestX, nearestY, this.#cellSize, this.#cellSize);
-      }
+  /**
+   * Event listener specific initialization.
+   */
+  #initEventListeners() {
+    this.#canvas?.addEventListener("click", (e) => this.#draw(e));
+
+    this.#colorPicker?.addEventListener("change", (event: Event) => {
+      this.#currentColor = (event.target as HTMLInputElement).value;
     });
+
+    this.#canvas?.addEventListener("mousedown", () => (this.#drawing = true));
 
     this.#canvas?.addEventListener("mousemove", (event: MouseEvent) => {
       const { offsetX, offsetY } = event;
@@ -46,11 +51,28 @@ export default class Board {
         this.#coordinateX.innerHTML = `X: ${offsetX}px`;
         this.#coordinateY.innerHTML = `Y: ${offsetY}px`;
       }
+
+      if (this.#drawing) {
+        this.#draw(event);
+      }
     });
 
-    this.#colorPicker?.addEventListener("change", (event: Event) => {
-      this.#currentColor = (event.target as HTMLInputElement).value;
-    });
+    this.#canvas?.addEventListener("mouseup", () => (this.#drawing = false));
+  }
+
+  /**
+   * Draws a pixel at the current x-y coordinates
+   * @param event A MouseEvent
+   */
+  #draw(event: MouseEvent) {
+    const { offsetX, offsetY } = event;
+    const nearestX = this.#roundToNearestCellValue(offsetX);
+    const nearestY = this.#roundToNearestCellValue(offsetY);
+
+    if (this.#ctx) {
+      this.#ctx.fillStyle = this.#currentColor;
+      this.#ctx.fillRect(nearestX, nearestY, this.#cellSize, this.#cellSize);
+    }
   }
 
   /**
