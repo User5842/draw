@@ -83,3 +83,5 @@ class Board {
         return Math.floor(point / this.#cellSize) * this.#cellSize;
     }
 }
+
+export default Board;

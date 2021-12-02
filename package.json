@@ -4,9 +4,16 @@
   "description": "An HTML5 Canvas experiment.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "rimraf dist && webpack --mode production",
+    "dev": "webpack serve --mode development"
   },
   "keywords": [],
   "author": "Rafael Negron",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "rimraf": "^3.0.2",
+    "webpack": "^5.64.4",
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-server": "^4.6.0"
+  }
 }

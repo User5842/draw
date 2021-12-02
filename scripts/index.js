@@ -1,1 +1,0 @@
-const board = new Board(25);
